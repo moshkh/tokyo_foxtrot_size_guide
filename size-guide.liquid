@@ -1,9 +1,3 @@
-{% comment %} 
-TO DO:
-- Ensure the modal can be scrolled along with the page and is not fixed 
-
-{% endcomment %}
-
 <!-- The Button that triggers the modal -->
 <div class="size-guide-container">
     <button id="open-size-guide" class="size-guide-link">Size guide</button>
@@ -18,8 +12,6 @@ TO DO:
         <!-- Your dynamic size chart content will be inserted here -->
         <div class="size-chart modal-text">
           {{ product.metafields.custom.product_size_chart | raw }}
-
-          {% comment %} Remove line 18 when all is fixed {% endcomment %}
   
           <!-- <img src="{{product.metafields.custom.size_mockup_image_xs | image_url }}}" height="400" width="400"> -->
   
@@ -30,42 +22,42 @@ TO DO:
               <button
                 class="show-mockup modal-text"
                 data-size="xs"
-                data-mockup="{{ product.metafields.custom.size_mockup_image_xs }}"
+                data-mockup="{{ product.metafields.custom.size_mockup_image_xs | image_url }}"
               >
                 XS
               </button>
               <button
                 class="show-mockup modal-text"
                 data-size="s"
-                data-mockup="{{ product.metafields.custom.size_mockup_image_s }}"
+                data-mockup="{{ product.metafields.custom.size_mockup_image_s  | image_url }}"
               >
                 S
               </button>
               <button
                 class="show-mockup modal-text"
                 data-size="m"
-                data-mockup="{{ product.metafields.custom.size_mockup_image_m }}"
+                data-mockup="{{ product.metafields.custom.size_mockup_image_m | image_url  }}"
               >
                 M
               </button>
               <button
                 class="show-mockup modal-text"
                 data-size="l"
-                data-mockup="{{ product.metafields.custom.size_mockup_image_l }}"
+                data-mockup="{{ product.metafields.custom.size_mockup_image_l | image_url  }}"
               >
                 L
               </button>
               <button
                 class="show-mockup modal-text"
                 data-size="xl"
-                data-mockup="{{ product.metafields.custom.size_mockup_image_xl }}"
+                data-mockup="{{ product.metafields.custom.size_mockup_image_xl | image_url  }}"
               >
                 XL
               </button>
             </div>
   
             <div class="mockup-container">
-              <img id="mockup-img" src="" alt="Size Mockup" style="display:none;" height="400" width="400">
+              <img id="mockup-img" src="" alt="Size Mockup" style="display:none;">
             </div>
             {% comment %} Image src is dynamically added with JS below {% endcomment %}
           </div>
@@ -76,66 +68,78 @@ TO DO:
   
   <!-- Simplified CSS for the link-style button and modal -->
   <style>
-      /* Container for the link, ensuring it's right aligned */
-      .size-guide-container {
-        text-align: right; /* Aligns the content to the right */
+        /* Container for the link, ensuring it's right aligned */
+        .size-guide-container {
+          text-align: right; /* Aligns the content to the right */
+        }
+  
+        /* Link-style Button */
+        .size-guide-link {
+          background: none;
+          border: none;
+          color: #000; /* Default text color */
+          text-decoration: underline; /* Underline like a text link */
+          cursor: pointer;
+          padding: 0;
+          font-size: 1rem; /* Adjust size if needed */
+          display: inline-block;
+          margin: 0; /* Ensures no extra margin */
+        }
+  
+        /* Modal Styling */
+        .modal {
+          display: none; /* Hidden by default */
+          position: fixed;
+          z-index: 1000;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5); /* Dark background overlay */
+          overflow-y: auto
+        }
+  
+        .modal-content {
+          background-color: white;
+          margin: 5% auto;
+          padding: 20px;
+          border-radius: 8px;
+          width: 60%; /* Modal width */
+          max-width: 90%;
+          text-align: center;
+          position: relative; /* For positioning the close button inside */
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+  
+        @media (max-width: 768px) {
+        .modal-content {
+          width: 80%; /* Set the modal width to 80% on mobile screens */
+          max-width: none; /* No restriction on the width */
+        padding: 10px;
+        overflow-x: auto; /* Enable horizontal scrolling */
+        white-space: nowrap; /* Prevent content from wrapping */
+        }
       }
   
-      /* Link-style Button */
-      .size-guide-link {
-        background: none;
-        border: none;
-        color: #000; /* Default text color */
-        text-decoration: underline; /* Underline like a text link */
-        cursor: pointer;
-        padding: 0;
-        font-size: 1rem; /* Adjust size if needed */
-        display: inline-block;
-        margin: 0; /* Ensures no extra margin */
-      }
-  
-      /* Modal Styling */
-      .modal {
-        display: none; /* Hidden by default */
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5); /* Dark background overlay */
-      }
-  
-      .modal-content {
-        background-color: white;
-        margin: 15% auto;
-        padding: 20px;
-        border-radius: 8px;
-        width: 50%; /* Modal width */
-        text-align: center;
-        position: relative; /* For positioning the close button inside */
-      }
-  
-      @media (max-width: 768px) {
-      .modal-content {
-        width: 80%; /* Set the modal width to 80% on mobile screens */
-      }
+    .size-guide-content {
+      white-space: normal; /* Reset content wrapping for larger viewports */
     }
   
-      .modal-text {
-        color: black;
-        font-size: 1rem;
-      }
+        .modal-text {
+          color: black;
+          font-size: 1rem;
+        }
   
-      /* Close Button inside the modal box */
-      .close-modal {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        font-size: 24px;
-        cursor: pointer;
-        color: #000; /* Close button color */
-      }
+        /* Close Button inside the modal box */
+        .close-modal {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          font-size: 24px;
+          cursor: pointer;
+          color: #000; /* Close button color */
+        }
   </style>
   
   <script>
@@ -172,9 +176,11 @@ TO DO:
           button.addEventListener("click", function() {
             const mockupUrl = this.getAttribute("data-mockup");
             mockupImg.src = mockupUrl;
+            console.log(mockupImg.src)
             mockupImg.style.display = "block";
           });
         });
       });
   </script>
+  
   
