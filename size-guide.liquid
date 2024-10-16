@@ -1,4 +1,8 @@
-{% comment %} This is the snippet file being used in the actual theme {% endcomment %}
+{% comment %} 
+TO DO:
+- Ensure the modal can be scrolled along with the page and is not fixed 
+
+{% endcomment %}
 
 <!-- The Button that triggers the modal -->
 <div class="size-guide-container">
@@ -12,6 +16,60 @@
       <div class="size-guide-content">
         <h3 class="modal-text">Size guide for {{ product.title }}</h3>
         <!-- Your dynamic size chart content will be inserted here -->
+        <div class="size-chart modal-text">
+          {{ product.metafields.custom.product_size_chart | raw }}
+
+          {% comment %} Remove line 18 when all is fixed {% endcomment %}
+  
+          <!-- <img src="{{product.metafields.custom.size_mockup_image_xs | image_url }}}" height="400" width="400"> -->
+  
+          <!-- Size mockups section -->
+          <div class="size-mockups">
+            <h3>Select a size to view the mockup:</h3>
+            <div class="size-buttons">
+              <button
+                class="show-mockup modal-text"
+                data-size="xs"
+                data-mockup="{{ product.metafields.custom.size_mockup_image_xs }}"
+              >
+                XS
+              </button>
+              <button
+                class="show-mockup modal-text"
+                data-size="s"
+                data-mockup="{{ product.metafields.custom.size_mockup_image_s }}"
+              >
+                S
+              </button>
+              <button
+                class="show-mockup modal-text"
+                data-size="m"
+                data-mockup="{{ product.metafields.custom.size_mockup_image_m }}"
+              >
+                M
+              </button>
+              <button
+                class="show-mockup modal-text"
+                data-size="l"
+                data-mockup="{{ product.metafields.custom.size_mockup_image_l }}"
+              >
+                L
+              </button>
+              <button
+                class="show-mockup modal-text"
+                data-size="xl"
+                data-mockup="{{ product.metafields.custom.size_mockup_image_xl }}"
+              >
+                XL
+              </button>
+            </div>
+  
+            <div class="mockup-container">
+              <img id="mockup-img" src="" alt="Size Mockup" style="display:none;" height="400" width="400">
+            </div>
+            {% comment %} Image src is dynamically added with JS below {% endcomment %}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -104,5 +162,19 @@
         }
       });
     });
+  
+    // JS to handle mock-up image behaviour
+    document.addEventListener("DOMContentLoaded", function() {
+        const buttons = document.querySelectorAll(".show-mockup");
+        const mockupImg = document.getElementById("mockup-img");
+  
+        buttons.forEach(button => {
+          button.addEventListener("click", function() {
+            const mockupUrl = this.getAttribute("data-mockup");
+            mockupImg.src = mockupUrl;
+            mockupImg.style.display = "block";
+          });
+        });
+      });
   </script>
   
