@@ -1,78 +1,83 @@
 <!-- The Button that triggers the modal -->
 <div class="size-guide-container">
-    <button id="open-size-guide" class="size-guide-link">Size guide</button>
-  </div>
-  
-  <!-- The Modal Structure -->
-  <div id="size-guide-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <div class="size-guide-content">
-        <h3 class="modal-text">Size guide for {{ product.title }}</h3>
-        <!-- Your dynamic size chart content will be inserted here -->
-        <div class="size-chart modal-text">
-          {{ product.metafields.custom.product_size_chart | raw }}
-  
-          <!-- <img src="{{product.metafields.custom.size_mockup_image_xs | image_url }}}" height="400" width="400"> -->
-  
-          <!-- Size mockups section -->
-          <div class="size-mockups">
-            <h3>Select a size to view the mockup:</h3>
-            <div class="size-buttons">
-              <button
-                class="show-mockup modal-text"
-                data-size="xs"
-                data-mockup="{{ product.metafields.custom.size_mockup_image_xs | image_url }}"
-              >
-                XS
-              </button>
-              <button
-                class="show-mockup modal-text"
-                data-size="s"
-                data-mockup="{{ product.metafields.custom.size_mockup_image_s  | image_url }}"
-              >
-                S
-              </button>
-              <button
-                class="show-mockup modal-text"
-                data-size="m"
-                data-mockup="{{ product.metafields.custom.size_mockup_image_m | image_url  }}"
-              >
-                M
-              </button>
-              <button
-                class="show-mockup modal-text"
-                data-size="l"
-                data-mockup="{{ product.metafields.custom.size_mockup_image_l | image_url  }}"
-              >
-                L
-              </button>
-              <button
-                class="show-mockup modal-text"
-                data-size="xl"
-                data-mockup="{{ product.metafields.custom.size_mockup_image_xl | image_url  }}"
-              >
-                XL
-              </button>
-            </div>
-  
-            <div class="mockup-container">
-              <img id="mockup-img" src="" alt="Size Mockup" style="display:none;">
-            </div>
-            {% comment %} Image src is dynamically added with JS below {% endcomment %}
+  <button id="open-size-guide" class="size-guide-link">Size guide</button>
+</div>
+
+<!-- The Modal Structure -->
+<div id="size-guide-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <!-- How to measure chart is here -->
+    <img src="{{ shop.metaobjects.global.sizing.how_to_measure | image_url }}" alt="How To Measure">
+    <!-- Size conversion chart -->
+    <div class="modal-text">{{ shop.metaobjects.global.sizing.size_conversion_chart }}</div>
+    <!-- Rest of the size guide content -->
+    <div class="size-guide-content">
+      <h3 class="modal-text">Size guide for {{ product.title }}</h3>
+      <!-- Your dynamic size chart content will be inserted here -->
+      <div class="size-chart modal-text">
+        {{ product.metafields.custom.product_size_chart | raw }}
+
+        <!-- <img src="{{product.metafields.custom.size_mockup_image_xs | image_url }}}" height="400" width="400"> -->
+
+        <!-- Size mockups section -->
+        <div class="size-mockups">
+          <h3>Select a size to view the mockup:</h3>
+          <div class="size-buttons">
+            <button
+              class="show-mockup modal-text"
+              data-size="xs"
+              data-mockup="{{ product.metafields.custom.size_mockup_image_xs | image_url }}"
+            >
+              XS
+            </button>
+            <button
+              class="show-mockup modal-text"
+              data-size="s"
+              data-mockup="{{ product.metafields.custom.size_mockup_image_s  | image_url }}"
+            >
+              S
+            </button>
+            <button
+              class="show-mockup modal-text"
+              data-size="m"
+              data-mockup="{{ product.metafields.custom.size_mockup_image_m | image_url  }}"
+            >
+              M
+            </button>
+            <button
+              class="show-mockup modal-text"
+              data-size="l"
+              data-mockup="{{ product.metafields.custom.size_mockup_image_l | image_url  }}"
+            >
+              L
+            </button>
+            <button
+              class="show-mockup modal-text"
+              data-size="xl"
+              data-mockup="{{ product.metafields.custom.size_mockup_image_xl | image_url  }}"
+            >
+              XL
+            </button>
           </div>
+
+          <div class="mockup-container">
+            <img id="mockup-img" src="" alt="Size Mockup" style="display:none;">
+          </div>
+          {% comment %} Image src is dynamically added with JS below {% endcomment %}
         </div>
       </div>
     </div>
   </div>
-  
-  <!-- Simplified CSS for the link-style button and modal -->
-  <style>
+</div>
+
+<!-- Simplified CSS for the link-style button and modal -->
+<style>
         /* Container for the link, ensuring it's right aligned */
         .size-guide-container {
           text-align: right; /* Aligns the content to the right */
         }
-  
+
         /* Link-style Button */
         .size-guide-link {
           background: none;
@@ -85,7 +90,7 @@
           display: inline-block;
           margin: 0; /* Ensures no extra margin */
         }
-  
+
         /* Modal Styling */
         .modal {
           display: none; /* Hidden by default */
@@ -98,7 +103,7 @@
           background-color: rgba(0, 0, 0, 0.5); /* Dark background overlay */
           overflow-y: auto
         }
-  
+
         .modal-content {
           background-color: white;
           margin: 5% auto;
@@ -111,7 +116,7 @@
           max-height: 90vh;
           overflow-y: auto;
         }
-  
+
         @media (max-width: 768px) {
         .modal-content {
           width: 80%; /* Set the modal width to 80% on mobile screens */
@@ -121,16 +126,26 @@
         white-space: nowrap; /* Prevent content from wrapping */
         }
       }
-  
+
+  .mockup-container img {
+    max-width: 150%; /* Ensure the image doesn't exceed its container's width */
+    max-height: 500px; /* Set a maximum height to limit the size */
+    min-height: 300px;
+    width: auto; /* Maintain aspect ratio */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure the image displays as a block element */
+    margin: 0 auto; /* Center the image horizontally */
+  }
+
     .size-guide-content {
       white-space: normal; /* Reset content wrapping for larger viewports */
     }
-  
+
         .modal-text {
           color: black;
           font-size: 1rem;
         }
-  
+
         /* Close Button inside the modal box */
         .close-modal {
           position: absolute;
@@ -140,47 +155,45 @@
           cursor: pointer;
           color: #000; /* Close button color */
         }
-  </style>
-  
-  <script>
-      // JavaScript to handle modal behavior
-    document.addEventListener('DOMContentLoaded', function () {
-      const modal = document.getElementById('size-guide-modal');
-      const btn = document.getElementById('open-size-guide');
-      const closeBtn = document.querySelector('.close-modal');
-  
-      // Open the modal when the button is clicked
-      btn.addEventListener('click', function () {
-        modal.style.display = 'block';
-      });
-  
-      // Close the modal when the "x" button is clicked
-      closeBtn.addEventListener('click', function () {
-        modal.style.display = 'none';
-      });
-  
-      // Close the modal when clicking outside of the modal content
-      window.addEventListener('click', function (event) {
-        if (event.target === modal) {
-          modal.style.display = 'none';
-        }
-      });
+</style>
+
+<script>
+    // JavaScript to handle modal behavior
+  document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('size-guide-modal');
+    const btn = document.getElementById('open-size-guide');
+    const closeBtn = document.querySelector('.close-modal');
+
+    // Open the modal when the button is clicked
+    btn.addEventListener('click', function () {
+      modal.style.display = 'block';
     });
-  
-    // JS to handle mock-up image behaviour
-    document.addEventListener("DOMContentLoaded", function() {
-        const buttons = document.querySelectorAll(".show-mockup");
-        const mockupImg = document.getElementById("mockup-img");
-  
-        buttons.forEach(button => {
-          button.addEventListener("click", function() {
-            const mockupUrl = this.getAttribute("data-mockup");
-            mockupImg.src = mockupUrl;
-            console.log(mockupImg.src)
-            mockupImg.style.display = "block";
-          });
+
+    // Close the modal when the "x" button is clicked
+    closeBtn.addEventListener('click', function () {
+      modal.style.display = 'none';
+    });
+
+    // Close the modal when clicking outside of the modal content
+    window.addEventListener('click', function (event) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  });
+
+  // JS to handle mock-up image behaviour
+  document.addEventListener("DOMContentLoaded", function() {
+      const buttons = document.querySelectorAll(".show-mockup");
+      const mockupImg = document.getElementById("mockup-img");
+
+      buttons.forEach(button => {
+        button.addEventListener("click", function() {
+          const mockupUrl = this.getAttribute("data-mockup");
+          mockupImg.src = mockupUrl;
+          console.log(mockupImg.src)
+          mockupImg.style.display = "block";
         });
       });
-  </script>
-  
-  
+    });
+</script>
